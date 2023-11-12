@@ -1,10 +1,8 @@
 import {
   AuthBindings,
   Authenticated,
-  GitHubBanner,
   Refine,
 } from "@refinedev/core";
-import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 
 import {
@@ -13,6 +11,16 @@ import {
   RefineSnackbarProvider,
   ThemedLayoutV2,
 } from "@refinedev/mui";
+import 
+{
+AccountCircleOutlined,
+ChatBubbleOutline,
+PeopleAltOutlined,
+StarOutlineRounded,
+VillaOutlined
+} from "@mui/icons-material"
+
+;
 
 import CssBaseline from "@mui/material/CssBaseline";
 import GlobalStyles from "@mui/material/GlobalStyles";
@@ -37,11 +45,29 @@ import {
   CategoryList,
   CategoryShow,
 } from "pages/categories";
-import { Login } from "pages/login";
+import {  
+Login,
+// MyProfile,
+// PropertyDetails,
+// AllProperties,
+// CreateProperty,
+// AgentProfile,
+// EditProperty,
+} from "pages";
+
+import { Home } from "pages";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import { parseJwt } from "utils/parse-jwt";
-import { Header } from "./components/header";
+import { Header } from "./components/layout/header";
 import { ColorModeContextProvider } from "./contexts/color-mode";
+import { Title} from "components/layout/title";
+import { Sider } from "components/layout/sider";
+import { Layout } from "components/layout/layout";
+
+
+
+
+
 
 const axiosInstance = axios.create();
 axiosInstance.interceptors.request.use((request: AxiosRequestConfig) => {
@@ -136,13 +162,13 @@ function App() {
 
   return (
     <BrowserRouter>
-      <GitHubBanner />
+ 
       <RefineKbarProvider>
         <ColorModeContextProvider>
           <CssBaseline />
           <GlobalStyles styles={{ html: { WebkitFontSmoothing: "auto" } }} />
           <RefineSnackbarProvider>
-            <DevtoolsProvider>
+         
               <Refine
                 dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
                 notificationProvider={notificationProvider}
@@ -150,41 +176,63 @@ function App() {
                 authProvider={authProvider}
                 resources={[
                   {
-                    name: "blog_posts",
-                    list: "/blog-posts",
-                    create: "/blog-posts/create",
-                    edit: "/blog-posts/edit/:id",
-                    show: "/blog-posts/show/:id",
-                    meta: {
-                      canDelete: true,
-                    },
+                    name: "property",
+                    list: "/categories",
+                    icon: <VillaOutlined/>,
+                  
                   },
                   {
-                    name: "categories",
+                    name: "agent",
                     list: "/categories",
-                    create: "/categories/create",
-                    edit: "/categories/edit/:id",
-                    show: "/categories/show/:id",
-                    meta: {
-                      canDelete: true,
-                    },
+                    icon: <PeopleAltOutlined />,
+                  
+                  },
+                  {
+                    name: "review",
+                    list: "/categories",
+                    icon: <StarOutlineRounded />,
+                  
+                  },
+                  {
+                    name: "message",
+                    list: "/categories",
+                    icon: <ChatBubbleOutline />,
+                  
+                  },
+                  {
+                    name: "my profile",
+                    options: { label: "My profile"},
+                    list: "/categories",
+                    icon: <AccountCircleOutlined/>,
+                  
                   },
                 ]}
+                
+                
                 options={{
                   syncWithLocation: true,
                   warnWhenUnsavedChanges: true,
                   projectId: "2LzVT2-m7obBW-QxGRzy",
                 }}
+                Title={Title}
+                Sider={Sider}
+                Layout={Layout}
+                Header={Header}
+                DashboardPage={Home}
+                
               >
                 <Routes>
                   <Route
                     element={
+                      
                       <Authenticated
                         key="authenticated-inner"
                         fallback={<CatchAllNavigate to="/login" />}
                       >
                         <ThemedLayoutV2
-                          Header={() => <Header isSticky={true} />}
+                          // Header={() =>  // isSticky={true}
+                            
+                          //   />}
                         >
                           <Outlet />
                         </ThemedLayoutV2>
@@ -222,13 +270,11 @@ function App() {
                     <Route path="/login" element={<Login />} />
                   </Route>
                 </Routes>
-
-                <RefineKbar />
+                 
+               <RefineKbar />
                 <UnsavedChangesNotifier />
                 <DocumentTitleHandler />
               </Refine>
-              <DevtoolsPanel />
-            </DevtoolsProvider>
           </RefineSnackbarProvider>
         </ColorModeContextProvider>
       </RefineKbarProvider>

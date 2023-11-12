@@ -6,11 +6,13 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import { ThemedTitleV2 } from "@refinedev/mui";
 
+//Logo
+
+
 import { CredentialResponse } from "../interfaces/google";
 
-// Todo: Update your Google Client ID here
 const GOOGLE_CLIENT_ID =
-  "1041339102270-e1fpe2b6v6u1didfndh7jkjmpcashs4f.apps.googleusercontent.com";
+  "763335864379-2h0lp08ic0h8rs28c0vbpt0unftloch7.apps.googleusercontent.com";
 
 export const Login: React.FC = () => {
   const { mutate: login } = useLogin<CredentialResponse>();
@@ -74,7 +76,7 @@ export const Login: React.FC = () => {
         <Typography align="center" color={"text.secondary"} fontSize="12px">
           Powered by
           <img
-            style={{ padding: "0 5px" }}
+            style={{ padding: "0.5px" }}
             alt="Google"
             src="https://refine.ams3.cdn.digitaloceanspaces.com/superplate-auth-icons%2Fgoogle.svg"
           />
